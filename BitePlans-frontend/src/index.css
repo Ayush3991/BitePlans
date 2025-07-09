@@ -1,0 +1,117 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 🎨 Base Theme Variables */
+/* HSL-based tokens for theming, applied to :root and .dark */
+
+@layer base {
+  :root {
+    /* Backgrounds and Text */
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+
+    /* Card & Popover UI */
+    --card: 0 0% 100%;
+    --card-foreground: var(--foreground);
+    --popover: 0 0% 100%;
+    --popover-foreground: var(--foreground);
+
+    /* Primary / Secondary */
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: var(--primary);
+
+    /* Muted & Accent */
+    --muted: var(--secondary);
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: var(--secondary);
+    --accent-foreground: var(--primary);
+
+    /* Destructive (errors/warnings) */
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: var(--primary-foreground);
+
+    /* Borders & Inputs */
+    --border: 214.3 31.8% 91.4%;
+    --input: var(--border);
+    --ring: var(--foreground);
+
+    /* UI Radius */
+    --radius: 0.5rem;
+
+    /* Sidebar Styles */
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: var(--sidebar-primary);
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  /* 🌙 Dark Theme Overrides */
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    --card: var(--background);
+    --card-foreground: var(--foreground);
+    --popover: var(--background);
+    --popover-foreground: var(--foreground);
+
+    --primary: var(--foreground);
+    --primary-foreground: var(--background);
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: var(--foreground);
+
+    --muted: var(--secondary);
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: var(--secondary);
+    --accent-foreground: var(--foreground);
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: var(--foreground);
+
+    --border: var(--secondary);
+    --input: var(--border);
+    --ring: 212.7 26.8% 83.9%;
+
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: var(--sidebar-accent);
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+/* 📐 Base Styles Applied Globally */
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Custom Spinner Animation */
+@keyframes spin-slow {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 2s linear infinite;
+}
+

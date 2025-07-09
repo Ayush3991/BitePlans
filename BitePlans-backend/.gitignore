@@ -1,0 +1,4 @@
+# Ignore environment & secrets
+.env
+firebase-service-account.json
+node_modules/
