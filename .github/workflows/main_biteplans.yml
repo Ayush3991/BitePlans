@@ -68,5 +68,5 @@ jobs:
         with:
           app-name: 'BitePlans'
           slot-name: 'Production'
-          package: .
+          package: './BitePlans-backend'
           
