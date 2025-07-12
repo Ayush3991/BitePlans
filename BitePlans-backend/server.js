@@ -24,16 +24,11 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "../frontend/dist")));
 
 // Routes mounting
-app.use("/api/v1/", userRoutes);         // User-related routes(e.g. /api/v1/register, /api/v1/me)
+app.use("/api/v1", userRoutes);         // User-related routes(e.g. /api/v1/register, /api/v1/me)
 app.use("/api/v1/plans", planRoutes);   // Plan routes(e.g. /api/v1/plans, api/v1/subscribe)
 app.use("/api/v1/products", productRoutes); // Product routes(e.g. /api/v1/products, api/v1/productId/use)
 app.use("/api/v1/creditusage", creditusageRoutes); // Credit Usage routes(e.g. /api/v1/creditusage)
 app.use("/api/v1/transactions", transactionRoutes); // Product routes(e.g. /api/v1/transactions/Id)
-
-// Catch-all route to handle frontend routes
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../frontend/dist/index.html"));
-});
 
 // Default Route
 app.get("/", (req, res) => {
