@@ -25,7 +25,7 @@ const plan = meData?.currentPlan?.planId === 'trial' ? 'Free Trial' : meData?.cu
     const fetchUserData = async () => {
       try {
         const token = await auth.currentUser.getIdToken();
-        const res = await fetch('/api/v1/me', {
+        const res = await axios.get('/me', {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (!res.ok) throw new Error('Failed to fetch user data');
@@ -44,7 +44,7 @@ const plan = meData?.currentPlan?.planId === 'trial' ? 'Free Trial' : meData?.cu
     const fetchTransactions = async () => {
       try {
         const token = await auth.currentUser.getIdToken();
-        const res = await fetch('/api/v1/transactions', {
+        const res = await axios.get('/transactions', {
           headers: { Authorization: `Bearer ${token}` },
         });
         const transactionData = await res.json();
@@ -60,7 +60,7 @@ const plan = meData?.currentPlan?.planId === 'trial' ? 'Free Trial' : meData?.cu
     const fetchCreditUsage = async () => {
       try {
         const token = await auth.currentUser.getIdToken();
-        const res = await fetch('/api/v1/creditusage', {
+        const res = await axios.get('/creditusage', {
           headers: { Authorization: `Bearer ${token}` },
         });
         const usageData = await res.json();

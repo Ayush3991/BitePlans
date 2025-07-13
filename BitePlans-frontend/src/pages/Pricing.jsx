@@ -15,7 +15,7 @@ const Pricing = () => {
   useEffect(() => {
     const fetchPlans = async () => {
       try {
-        const res = await fetch('/api/v1/plans');
+        const res = await axios.get('/plans');
         const data = await res.json();
         if (data.success) setPlans(data.data);
         else console.error('Failed to load plans');
@@ -41,7 +41,7 @@ const handlePayPalClick = async (planId) => {
     console.log("Sending planId to backend:", planId);
 
     const res = await axios.post(
-      '/api/v1/plans/subscribe',
+      '/plans/subscribe',
       { planId },
       {
         headers: {

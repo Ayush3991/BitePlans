@@ -13,7 +13,7 @@ const Products = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await fetch('/api/v1/products');
+        const res = await axios.get('/products');
         const data = await res.json();
         if (data.success) {
           setTools(data.data);
