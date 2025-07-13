@@ -3,12 +3,7 @@ import react from "@vitejs/plugin-react-swc";
 import path from "path";
 
 export default defineConfig(({ mode }) => ({
-  base: './',
-  server: mode === "development" ? {
-    proxy: {
-      '/api': 'http://localhost:5000',
-    },
-  } : undefined, 
+  base: "./",
   plugins: [
     react(),
   ],
