@@ -1,6 +1,7 @@
 const express = require("express");
 const path = require("path");
 const dotenv = require("dotenv");
+const cors = require("cors"); // <-- Added
 const connectDB = require("./config/db");
 const admin = require("./config/firebase"); 
 const authenticateUser = require("./middleware/authMiddleware"); 
@@ -20,15 +21,24 @@ connectDB();
 // Middleware to parse JSON
 app.use(express.json()); 
 
+// Add CORS middleware here
+const allowedOrigins = [
+  "https://biteplansf-production.up.railway.app",
+];
+app.use(cors({
+  origin: allowedOrigins,
+  credentials: true,
+}));
+
 // Serve static frontend files (from dist)
 app.use(express.static(path.join(__dirname, "../frontend/dist")));
 
 // Routes mounting
-app.use("/api/v1", userRoutes);         // User-related routes(e.g. /api/v1/register, /api/v1/me)
-app.use("/api/v1/plans", planRoutes);   // Plan routes(e.g. /api/v1/plans, api/v1/subscribe)
-app.use("/api/v1/products", productRoutes); // Product routes(e.g. /api/v1/products, api/v1/productId/use)
-app.use("/api/v1/creditusage", creditusageRoutes); // Credit Usage routes(e.g. /api/v1/creditusage)
-app.use("/api/v1/transactions", transactionRoutes); // Product routes(e.g. /api/v1/transactions/Id)
+app.use("/api/v1", userRoutes);
+app.use("/api/v1/plans", planRoutes);
+app.use("/api/v1/products", productRoutes);
+app.use("/api/v1/creditusage", creditusageRoutes);
+app.use("/api/v1/transactions", transactionRoutes);
 
 // Default Route
 app.get("/", (req, res) => {
