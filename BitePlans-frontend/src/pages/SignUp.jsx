@@ -4,6 +4,7 @@ import { useUser } from '../context/UserContext';
 import { auth } from '../firebase';
 import {createUserWithEmailAndPassword,GoogleAuthProvider,OAuthProvider,signInWithPopup,} from 'firebase/auth';
 import { toast } from 'react-hot-toast';
+import axios from 'axios';
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -86,8 +87,6 @@ const res = await axios.post('/register', {
   },
 });
 
-      if (!res.ok) throw new Error('Failed to register user');
-
       login({ email: user.email, name: formData.name, id: user.uid });
       toast.success("Signup successful!");
       setTimeout(() => {
@@ -124,8 +123,6 @@ const res = await axios.post('/register', {
   },
 });
 
-      if (!res.ok) throw new Error('Failed to register with Google');
-
       login({ email: user.email, name: user.displayName, id: user.uid });
       toast.success("Signup successful!");
       setTimeout(() => {
@@ -161,8 +158,6 @@ const res = await axios.post('/register', {
     Authorization: `Bearer ${idToken}`,
   },
 });
-
-      if (!res.ok) throw new Error('Failed to register with Microsoft');
 
       login({ email: user.email, name: user.displayName, id: user.uid });
       toast.success("Signup successful!");

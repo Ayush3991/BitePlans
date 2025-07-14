@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { auth } from '../firebase';
 import { useUser } from '../context/UserContext';
+import axios from 'axios';
 
 const Dashboard = () => {
   const { user } = useUser();
@@ -28,8 +29,7 @@ const plan = meData?.currentPlan?.planId === 'trial' ? 'Free Trial' : meData?.cu
         const res = await axios.get('/me', {
           headers: { Authorization: `Bearer ${token}` },
         });
-        if (!res.ok) throw new Error('Failed to fetch user data');
-        const data = await res.json();
+        const data = res.data;
         setMeData(data.user);
       } catch (err) {
         setError('Failed to load your profile. Please try again later.');
@@ -47,7 +47,7 @@ const plan = meData?.currentPlan?.planId === 'trial' ? 'Free Trial' : meData?.cu
         const res = await axios.get('/transactions', {
           headers: { Authorization: `Bearer ${token}` },
         });
-        const transactionData = await res.json();
+        const transactionData = res.data;
         setTransactions(transactionData.data || []);
       } catch (err) {
         setTransactions([]);
@@ -63,7 +63,7 @@ const plan = meData?.currentPlan?.planId === 'trial' ? 'Free Trial' : meData?.cu
         const res = await axios.get('/creditusage', {
           headers: { Authorization: `Bearer ${token}` },
         });
-        const usageData = await res.json();
+        const usageData = res.data;
         setCreditUsage(usageData.data || []);
       } catch (err) {
         console.error('Failed to fetch credit usage:', err);

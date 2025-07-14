@@ -83,16 +83,17 @@ const handleTryNow = async () => {
   const token = await firebaseUser.getIdToken();
 
   try {
-    const res = await fetch(`/api/v1/products/${productId}/use`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    });
+const res = await axios.post(`/products/${productId}/use`,{},
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
-    const data = await res.json();
-
+    const data = res.data;
+    
     if (data.success) {
       await login(); // refresh user credits
 

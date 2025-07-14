@@ -4,6 +4,7 @@ import {signInWithEmailAndPassword,signInWithPopup,GoogleAuthProvider,} from 'fi
 import { auth, microsoftProvider } from '../firebase';
 import { useUser } from '../context/UserContext';
 import { toast } from 'react-hot-toast'; 
+import axios from 'axios';
 
 const Login = () => {
   const { login } = useUser();
@@ -16,33 +17,28 @@ const Login = () => {
 
   // Fetch current user from backend using Firebase token
   const fetchUser = async (token) => {
-    const res = await fetch('/api/v1/me', {
+    const res = await axios.get('/me', {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
 
-    if (!res.ok) throw new Error('Failed to fetch user');
-
-    const data = await res.json();
+    const data = res.data;
     if (!data.success || !data.user) throw new Error('User data invalid');
 
     return data.user;
   };
 
   // Register a new user (for social logins)
-  const registerUser = async (token, name, email) => {
-    const res = await fetch('/api/v1/register', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ name, email }),
-    });
+const registerUser = async (token, name, email) => {
+  const res = await axios.post('/register', { name, email }, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
-    if (!res.ok) throw new Error('Registration failed');
-  };
+  if (!res.data.success) throw new Error('Registration failed');
+};
 
   const handleSubmit = async (e) => {
     e.preventDefault();

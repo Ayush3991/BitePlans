@@ -44,15 +44,16 @@ const handleUseProduct = async (productId, productName) => {
 
     const token = await user.getIdToken();
 
-    const res = await axios.post(`/products/${productId}/use`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    });
+const res = await axios.post(`/products/${productId}/use`,{},
+  {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  }
+);
 
-    const data = await res.json();
+const data = res.data;
 
     if (res.status === 401) {
       alert("Unauthorized. Please login again.");
