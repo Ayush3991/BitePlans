@@ -77,17 +77,14 @@ const SignUp = () => {
       const user = userCredential.user;
       const idToken = await user.getIdToken();
 
-      const res = await fetch('/api/v1/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${idToken}`,
-        },
-        body: JSON.stringify({
-          email: formData.email,
-          name: formData.name,
-        }),
-      });
+const res = await axios.post('/register', {
+  email: formData.email,
+  name: formData.name,
+}, {
+  headers: {
+    Authorization: `Bearer ${idToken}`,
+  },
+});
 
       if (!res.ok) throw new Error('Failed to register user');
 
@@ -118,17 +115,14 @@ const SignUp = () => {
       const user = result.user;
       const idToken = await user.getIdToken();
 
-      const res = await fetch('/api/v1/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${idToken}`,
-        },
-        body: JSON.stringify({
-          email: user.email,
-          name: user.displayName,
-        }),
-      });
+const res = await axios.post('/register', {
+  email: user.email,
+  name: user.displayName,
+}, {
+  headers: {
+    Authorization: `Bearer ${idToken}`,
+  },
+});
 
       if (!res.ok) throw new Error('Failed to register with Google');
 
@@ -159,17 +153,14 @@ const SignUp = () => {
       const user = result.user;
       const idToken = await user.getIdToken();
 
-      const res = await fetch('/api/v1/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${idToken}`,
-        },
-        body: JSON.stringify({
-          email: user.email,
-          name: user.displayName,
-        }),
-      });
+const res = await axios.post('/register', {
+  email: user.email,
+  name: user.displayName,
+}, {
+  headers: {
+    Authorization: `Bearer ${idToken}`,
+  },
+});
 
       if (!res.ok) throw new Error('Failed to register with Microsoft');
 

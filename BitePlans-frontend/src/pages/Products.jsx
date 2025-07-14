@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import '../index.css';
 import { useUser } from '../context/UserContext';
 import { auth } from '../firebase';
+import axios from 'axios';
 
 const Products = () => {
   const [tools, setTools] = useState([]);
@@ -14,7 +15,7 @@ const Products = () => {
     const fetchProducts = async () => {
       try {
         const res = await axios.get('/products');
-        const data = await res.json();
+        const data = res.data;
         if (data.success) {
           setTools(data.data);
         } else {
@@ -43,7 +44,7 @@ const handleUseProduct = async (productId, productName) => {
 
     const token = await user.getIdToken();
 
-    const res = await fetch(`/api/v1/products/${productId}/use`, {
+    const res = await axios.post(`/products/${productId}/use`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

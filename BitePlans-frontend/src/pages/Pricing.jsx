@@ -16,7 +16,7 @@ const Pricing = () => {
     const fetchPlans = async () => {
       try {
         const res = await axios.get('/plans');
-        const data = await res.json();
+        const data = res.data;
         if (data.success) setPlans(data.data);
         else console.error('Failed to load plans');
       } catch (err) {
