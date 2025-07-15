@@ -21,6 +21,16 @@ const usedCredits = meData?.usedCredits ?? 0;
 const isUnlimited = totalCredits === -1;
 const creditUsagePercent = isUnlimited ? 0 : (usedCredits / totalCredits) * 100;
 const plan = meData?.currentPlan?.planId === 'trial' ? 'Free Trial' : meData?.currentPlan?.planId || 'N/A';
+const trialDaysLeft = (() => {
+  if (meData?.currentPlan?.planId === 'trial') {
+    const endDate = new Date(meData.currentPlan.endDate);
+    const today = new Date();
+    const diffTime = endDate - today;
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays > 0 ? diffDays : 0;
+  }
+  return null;
+})();
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -50,7 +60,6 @@ useEffect(() => {
       }
 
       const token = await user.getIdToken();
-      console.log("🪪 Token for transactions:", token);
       const res = await axios.get('/transactions', {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -74,7 +83,6 @@ useEffect(() => {
       }
 
       const token = await user.getIdToken();
-      console.log("🪪 Token for transactions:", token);
       const res = await axios.get('/creditusage', {
         headers: { Authorization: `Bearer ${token}` },
       });
