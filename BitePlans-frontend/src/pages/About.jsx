@@ -7,7 +7,7 @@ const About = () => {
     {
       name: 'Darakshan Imteyaz',
       role: 'Frontend Engineer',
-      image: '/darakshan.jpg',
+      image: '/daraksha.jpg',
       bio: 'Frontend developer with a passion for UI/UX',
     },
     {
