@@ -73,8 +73,8 @@ const subscribeToPlan = async (req, res) => {
           },
         ],
         application_context: {
-          return_url: `http://localhost:5173/payment-success?planId=${selectedPlan.planId}`, // ✅ Add planId here only
-          cancel_url: "http://localhost:5173/pricing",
+          return_url: `https://biteplansf-production.up.railway.app/payment-success?planId=${selectedPlan.planId}`,
+          cancel_url: `https://biteplansf-production.up.railway.app/pricing`,
         },
       },
       {
