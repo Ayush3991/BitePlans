@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 const Navbar = () => {
   const { isDark, toggleTheme } = useTheme();
-  const { user, logout, credits, login } = useUser();
+  const { user, logout, credits, login } = useUser(); // login added
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -29,6 +29,7 @@ const Navbar = () => {
     return name.charAt(0).toUpperCase() || 'U';
   };
 
+  // Close dropdown if clicked outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -45,46 +46,31 @@ const Navbar = () => {
     };
   }, [dropdownOpen]);
 
+  // Refresh full user info on route change (credits + image)
   useEffect(() => {
     const isAuthPage = ['/login', '/signup'].includes(location.pathname);
     if (user && !isAuthPage) {
-      login();
+      login(); // fetch full user data from Firebase
     }
   }, [location.pathname]);
-
-  // ✅ Logout handler
-  const handleLogout = async () => {
-    try {
-      await logout();
-      setDropdownOpen(false);
-      setTimeout(() => {
-        window.location.href =
-          'https://accounts.google.com/Logout?continue=https://appengine.google.com/_ah/logout?continue=' +
-          window.location.origin +
-          '/login';
-      }, 500);
-    } catch (error) {
-      console.error('Logout failed:', error);
-    }
-  };
 
   return (
     <>
       <nav className="fixed top-0 w-full z-[999] bg-white/80 dark:bg-gray-900/80 border-b border-gray-200 dark:border-gray-700 backdrop-blur-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
-
+            
             {/* Logo */}
-            <Link to="/" className="flex items-center space-x-2">
-              <img
-                src="/BitePlans.png"
-                alt="BitePlans Logo"
-                className="h-12 w-12 sm:h-16 sm:w-16 object-contain"
-              />
-              <span className="hidden md:inline text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                BitePlans
-              </span>
-            </Link>
+<Link to="/" className="flex items-center space-x-2">
+  <img
+    src="/BitePlans.png"
+    alt="BitePlans Logo"
+    className="h-12 w-12 sm:h-16 sm:w-16 object-contain"
+  />
+  <span className="hidden md:inline text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+    BitePlans
+  </span>
+</Link>
 
             {/* Center Nav */}
             <div className="hidden md:flex items-center space-x-8 absolute left-1/2 transform -translate-x-1/2">
@@ -120,11 +106,7 @@ const Navbar = () => {
                 whileTap={{ scale: 0.85 }}
                 className="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700"
               >
-                {isDark ? (
-                  <FiSun className="text-xl text-yellow-400" />
-                ) : (
-                  <FiMoon className="text-xl text-gray-700" />
-                )}
+                {isDark ? <FiSun className="text-xl text-yellow-400" /> : <FiMoon className="text-xl text-gray-700" />}
               </motion.button>
 
               {/* Profile Dropdown */}
@@ -134,19 +116,10 @@ const Navbar = () => {
                     onClick={() => setDropdownOpen((prev) => !prev)}
                     className="w-9 h-9 rounded-full overflow-hidden focus:outline-none hover:scale-105 transition-transform"
                   >
-                    {user?.profileImage?.startsWith('data:image') ||
-                    user?.profileImage?.startsWith('http') ? (
-                      <img
-                        src={user.profileImage}
-                        alt="Profile"
-                        className="w-full h-full object-cover rounded-full"
-                      />
+                    {user?.profileImage?.startsWith('data:image') || user?.profileImage?.startsWith('http') ? (
+                      <img src={user.profileImage} alt="Profile" className="w-full h-full object-cover rounded-full" />
                     ) : user?.photoURL ? (
-                      <img
-                        src={user.photoURL}
-                        alt="Profile"
-                        className="w-full h-full object-cover rounded-full"
-                      />
+                      <img src={user.photoURL} alt="Profile" className="w-full h-full object-cover rounded-full" />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold">
                         {getInitial()}
@@ -180,7 +153,10 @@ const Navbar = () => {
                           Dashboard
                         </Link>
                         <button
-                          onClick={handleLogout}
+                          onClick={() => {
+                            logout();
+                            setDropdownOpen(false);
+                          }}
                           className="w-full text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-700"
                         >
                           Logout
@@ -252,6 +228,7 @@ const Navbar = () => {
         </div>
       </nav>
 
+      {/* Edit Profile Modal */}
       {isEditModalOpen && <EditProfileModal onClose={() => setIsEditModalOpen(false)} />}
     </>
   );
