@@ -65,7 +65,7 @@ const Navbar = () => {
   <img
     src="/BitePlans.png"
     alt="BitePlans Logo"
-    className="h-10 w-10 sm:h-12 sm:w-12 object-contain"
+    className="h-12 w-12 sm:h-16 sm:w-16 object-contain"
   />
   <span className="hidden md:inline text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
     BitePlans
