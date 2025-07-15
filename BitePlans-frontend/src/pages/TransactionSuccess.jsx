@@ -31,20 +31,6 @@ const TransactionSuccess = () => {
     hour12: true
   });
 
-  const handleDownloadReceipt = () => {
-    if (receiptRef.current) {
-      const opt = {
-        margin: 0.5,
-        filename: `BitePlans_Receipt_${orderId}.pdf`,
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2 },
-        jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
-      };
-
-      html2pdf().set(opt).from(receiptRef.current).save();
-    }
-  };
-
 useEffect(() => {
   const unsubscribe = auth.onAuthStateChanged(async (firebaseUser) => {
     if (!firebaseUser) {
@@ -67,7 +53,7 @@ useEffect(() => {
       const token = await firebaseUser.getIdToken();
 
       const res = await axios.post(
-        '/api/v1/plans/confirm-subscription',
+        '/plans/confirm-subscription',
         {
           orderId: orderIdFromToken,
           planId: planIdFromURL,
