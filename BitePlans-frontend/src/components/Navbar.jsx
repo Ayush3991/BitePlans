@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 const Navbar = () => {
   const { isDark, toggleTheme } = useTheme();
-  const { user, logout, credits, login } = useUser(); // ✅ login added
+  const { user, logout, credits, login } = useUser(); // login added
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -29,7 +29,7 @@ const Navbar = () => {
     return name.charAt(0).toUpperCase() || 'U';
   };
 
-  // 🔁 Close dropdown if clicked outside
+  // Close dropdown if clicked outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {

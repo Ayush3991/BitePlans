@@ -22,7 +22,7 @@ export const UserProvider = ({ children }) => {
       if (!currentUser) return;
 
       const token = await currentUser.getIdToken();
-      const res = await axios.get('/api/v1/me', {
+      const res = await axios.get('/me', {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -41,7 +41,7 @@ export const UserProvider = ({ children }) => {
       if (!currentUser) return;
 
       const token = await currentUser.getIdToken();
-      const res = await axios.get('/api/v1/me', {
+      const res = await axios.get('/me', {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -59,7 +59,7 @@ export const UserProvider = ({ children }) => {
       if (!currentUser) return;
 
       const token = await currentUser.getIdToken();
-      const res = await axios.get('/api/v1/me', {
+      const res = await axios.get('/me', {
         headers: { Authorization: `Bearer ${token}` },
       });
 
