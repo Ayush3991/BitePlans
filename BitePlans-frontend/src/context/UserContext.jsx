@@ -1,4 +1,3 @@
-// context/UserContext.jsx
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { auth } from '../firebase';
 import axios from 'axios';
@@ -15,8 +14,7 @@ export const UserProvider = ({ children }) => {
   const [credits, setCredits] = useState(0);
   const [loadingUser, setLoadingUser] = useState(true);
 
-  // 👇 Yahi function tumhe EditProfileModal me chahiye tha
-  const refreshUser = async () => {
+  const fetchUserData = async () => {
     try {
       const currentUser = auth.currentUser;
       if (!currentUser) return;
@@ -31,8 +29,12 @@ export const UserProvider = ({ children }) => {
         setCredits(res.data.user.totalCredits || 0);
       }
     } catch (err) {
-      console.error("❌ Error refreshing user:", err);
+      console.error("Error fetching user & credits:", err.response?.data || err.message);
     }
+  };
+
+  const refreshUser = async () => {
+    await fetchUserData(); 
   };
 
   const fetchCredits = async () => {
@@ -49,26 +51,15 @@ export const UserProvider = ({ children }) => {
         setCredits(res.data.user.totalCredits || 0);
       }
     } catch (err) {
-      console.error("❌ Error fetching credits:", err);
+      console.error("Error fetching credits:", err.response?.data || err.message);
     }
   };
 
   const fetchUserAndCredits = async () => {
     try {
-      const currentUser = auth.currentUser;
-      if (!currentUser) return;
-
-      const token = await currentUser.getIdToken();
-      const res = await axios.get('/me', {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
-      if (res.data.success) {
-        setUser(res.data.user);
-        setCredits(res.data.user.totalCredits || 0);
-      }
+      await fetchUserData();
     } catch (err) {
-      console.error("❌ Error fetching user & credits:", err);
+      console.error("Error in fetchUserAndCredits:", err.response?.data || err.message);
     } finally {
       setLoadingUser(false);
     }

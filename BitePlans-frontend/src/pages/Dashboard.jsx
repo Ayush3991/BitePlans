@@ -40,37 +40,52 @@ const plan = meData?.currentPlan?.planId === 'trial' ? 'Free Trial' : meData?.cu
     fetchUserData();
   }, []);
 
-  useEffect(() => {
-    const fetchTransactions = async () => {
-      try {
-        const token = await auth.currentUser.getIdToken();
-        const res = await axios.get('/transactions', {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        const transactionData = res.data;
-        setTransactions(transactionData.data || []);
-      } catch (err) {
-        setTransactions([]);
+useEffect(() => {
+  const fetchTransactions = async () => {
+    try {
+      const user = auth.currentUser;
+      if (!user) {
+        console.log("User not authenticated yet");
+        return;
       }
-    };
-    fetchTransactions();
-  }, []);
 
-  useEffect(() => {
-    const fetchCreditUsage = async () => {
-      try {
-        const token = await auth.currentUser.getIdToken();
-        const res = await axios.get('/creditusage', {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        const usageData = res.data;
-        setCreditUsage(usageData.data || []);
-      } catch (err) {
-        console.error('Failed to fetch credit usage:', err);
+      const token = await user.getIdToken();
+      console.log("🪪 Token for transactions:", token);
+      const res = await axios.get('/transactions', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setTransactions(res.data.data || []);
+    } catch (err) {
+      console.error("Transactions fetch failed:", err);
+      setTransactions([]);
+    }
+  };
+
+  fetchTransactions();
+}, []);
+
+useEffect(() => {
+  const fetchCreditUsage = async () => {
+    try {
+      const user = auth.currentUser;
+      if (!user) {
+        console.log("User not authenticated yet");
+        return;
       }
-    };
-    fetchCreditUsage();
-  }, []);
+
+      const token = await user.getIdToken();
+      console.log("🪪 Token for transactions:", token);
+      const res = await axios.get('/creditusage', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setCreditUsage(res.data.data || []);
+    } catch (err) {
+      console.error("Credit usage fetch failed:", err);
+    }
+  };
+
+  fetchCreditUsage();
+}, []);
 
 useEffect(() => {
   if (meData) {

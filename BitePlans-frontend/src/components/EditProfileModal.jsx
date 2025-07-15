@@ -47,7 +47,7 @@ const handleSave = async () => {
       formData.append("profilePic", profilePic);
     }
 
-    await axios.put("/api/v1/update", formData, {
+    await axios.put("/update", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${token}`,
@@ -58,8 +58,8 @@ const handleSave = async () => {
     toast.success("Profile updated successfully");
     onClose();
   } catch (err) {
-    console.error("Update Error:", err);
-    toast.error("Something went wrong ");
+    console.error("Update Error:", err.response?.data || err.message);
+    toast.error("Something went wrong");
   } finally {
     setLoading(false);
   }
